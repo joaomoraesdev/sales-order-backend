@@ -52,3 +52,13 @@ Content-Type: application/json
 
 # Buscar todos os pedido menores ou iguais
 GET {{localhost}}/SalesOrderHeaders?$filter=totalAmount le 2000000
+
+###
+
+# Expandindo os itens, prodoutos e customers
+GET {{localhost}}/SalesOrderHeaders?$filter=totalAmount le 2000000&$expand=items($expand=product),customer
+
+###
+
+# Expandindo os itens, pordoutos e customers e filtrando
+GET {{localhost}}/SalesOrderHeaders?$filter=totalAmount le 2000000&$expand=items($expand=product;$filter=quantity le 30),customer
