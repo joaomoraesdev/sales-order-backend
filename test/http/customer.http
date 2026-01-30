@@ -1,0 +1,42 @@
+@localhost = http://localhost:4004/odata/v4/main
+@id=0f60ad28-8757-49f8-a7ab-84f581cc6d74
+
+GET {{localhost}}/Customers
+Content-Type: application/json
+
+###
+
+POST {{localhost}}/Customers
+Content-Type: application/json
+
+{
+    "id": "{{id}}",
+    "firstName": "João",
+    "lastName": "Moraes",
+    "email": "joao.moraes@numenit.com"
+}
+
+###
+
+DELETE {{localhost}}/Customers(id={{id}})
+Content-Type: application/json
+
+###
+
+# Essa ação de atualizar, por padrão, atualiza todos os campos, exceto a chave.
+PUT {{localhost}}/Customers(id={{id}})
+Content-Type: application/json
+
+{
+    "firstName": "Zé"
+}
+
+###
+
+# Essa ação de atualizar, por padrão, atualiza apenas os campos informados.
+PATCH {{localhost}}/Customers(id={{id}})
+Content-Type: application/json
+
+{
+    "firstName": "Zé",
+}
