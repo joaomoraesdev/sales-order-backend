@@ -47,3 +47,8 @@ Content-Type: application/json
 {
     "modifiedBy": "joaomoraes"
 }
+
+###
+
+# Buscar todos os pedido menores ou iguais
+GET {{localhost}}/SalesOrderHeaders?$filter=totalAmount le 2000000
