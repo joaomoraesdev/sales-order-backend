@@ -46,3 +46,15 @@ Content-Type: application/json
 
 GET {{localhost}}/Customers?$filter=endswith(firstName, '-1234')
 Content-Type: application/json
+
+###
+
+# Buscando clientes pelo search
+GET {{localhost}}/Customers?$search=numen
+Content-Type: application/json
+
+###
+
+# Ordernando dados com o orderby
+GET {{localhost}}/Customers?$orderby=firstName, email
+Content-Type: application/json
