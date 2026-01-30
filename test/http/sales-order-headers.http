@@ -1,6 +1,9 @@
-@localhost = http://localhost:4004/odata/v4/main
+@localhost=http://localhost:4004/odata/v4/main
+@id=518ac8eb-b57e-4962-b2ee-df9eaa94635e
+@customerId=0f60ad28-8757-49f8-a7ab-84f581cc6d74
+@productId=9ae2fa58-7e40-4a1b-b893-a868c0536827
 
-GET {{localhost}}/SalesOrderHeaders
+GET {{localhost}}/SalesOrderHeaders?$filter=id eq {{id}}&$expand=items
 Content-Type: application/json
 
 ###
@@ -8,17 +11,37 @@ Content-Type: application/json
 POST {{localhost}}/SalesOrderHeaders
 Content-Type: application/json
 
-
-{}
+{
+    "id": "{{id}}",
+    // Aqui a nomenclatrua do campo deve ser exatamente igual ao definido no modelo NomeDaColunaPai_NomeDoCampoFilho
+    "customer_id": "{{customerId}}",
+    "totalAmount": 15,
+    "items": [
+        {
+            "id": "59d903ae-bdcd-4f70-bc24-58b137db2cf4",
+            "header_id": "{{id}}",
+            "product_id": "{{productId}}",
+            "quantity": 10,
+            "price": 2.99
+        },
+        {
+            "id": "688ebc37-0da1-4a02-a474-ab34990e9845",
+            "header_id": "{{id}}",
+            "product_id": "{{productId}}",
+            "quantity": 5,
+            "price": 1.99
+        }
+    ]
+}
 
 ###
 
-DELETE {{localhost}}/SalesOrderHeaders(id=518ac8eb-b57e-4962-b2ee-df9eaa94635e)
+DELETE {{localhost}}/SalesOrderHeaders(id={{id}})
 Content-Type: application/json
 
 ###
 
-PUT {{localhost}}/SalesOrderHeaders(id=8cc5f5b5-cedc-45ad-9550-3acc7b24a08a)
+PUT {{localhost}}/SalesOrderHeaders(id={{id}})
 Content-Type: application/json
 
 {

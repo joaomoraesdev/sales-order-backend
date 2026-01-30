@@ -23,7 +23,8 @@ Content-Type: application/json
 
 ###
 
-# Essa ação de atualizar, por padrão, atualiza todos os campos, exceto a chave.
+# TEORIA = Essa ação de atualizar, por padrão, atualiza todos os campos, exceto a chave.
+# PRATICA = Está funcionando, trocando apenas o campo indicado, mas na duvida, NÃO FAZER
 PUT {{localhost}}/Customers(id={{id}})
 Content-Type: application/json
 
@@ -38,5 +39,5 @@ PATCH {{localhost}}/Customers(id={{id}})
 Content-Type: application/json
 
 {
-    "firstName": "Zé",
+    "firstName": "Jededaia"
 }
