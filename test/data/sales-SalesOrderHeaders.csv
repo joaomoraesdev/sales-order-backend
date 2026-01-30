@@ -8,4 +8,4 @@ id,customer_id,totalAmount,createdAt,createdBy,modifiedAt,modifiedBy
 78904871-3dad-4695-afae-302e7b9b6ea2,30800373-c03b-44a3-b96f-478868aebc5d,9957936555791.22,2015-07-16T02:00:00.000Z,createdBy.4p4c7@example.net,2000-11-06T02:00:00.000Z,modifiedBy.4p4c7@example.com
 78904884-9529-47af-9aa0-bd0572b390d0,30800373-c03b-44a3-b96f-478868aebc5d,8601933585963.31,2016-04-10T02:00:00.000Z,createdBy.4p4c8@example.org,2012-09-29T02:00:00.000Z,modifiedBy.4p4c8@example.com
 7890489b-8c2d-4029-8eca-04f266cb66b8,30800373-c03b-44a3-b96f-478868aebc5d,4556897669694.84,2015-02-23T02:00:00.000Z,createdBy.4p4c9@example.com,2001-07-27T02:00:00.000Z,modifiedBy.4p4c9@example.com
-78904900-dff2-46ba-bb7e-d3f114e1f9aa,30800373-c03b-44a3-b96f-478868aebc5d,510619604267.2,2011-05-24T02:00:00.000Z,createdBy.4p4ca@example.org,2021-12-16T02:00:00.000Z,modifiedBy.4p4ca@example.net
+78904900-dff2-46ba-bb7e-d3f114e1f9aa,30800373-c03b-44a3-b96f-478868aebc5d,199.20,2011-05-24T02:00:00.000Z,createdBy.4p4ca@example.org,2021-12-16T02:00:00.000Z,modifiedBy.4p4ca@example.net
