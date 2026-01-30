@@ -1,0 +1,42 @@
+@localhost = http://localhost:4004/odata/v4/main
+@id=9ae2fa58-7e40-4a1b-b893-a868c0536827
+
+GET {{localhost}}/Products
+Content-Type: application/json
+
+###
+
+POST {{localhost}}/Products
+Content-Type: application/json
+
+{
+    "id": "{{id}}",
+    "name": "PlayStation 5",
+    "price": 158.87
+}
+
+###
+
+DELETE {{localhost}}/Products(id={{id}})
+Content-Type: application/json
+
+###
+
+# TEORIA = Essa ação de atualizar, por padrão, atualiza todos os campos, exceto a chave.
+# PRATICA = Está funcionando, trocando apenas o campo indicado, mas na duvida, NÃO FAZER
+PUT {{localhost}}/Products(id={{id}})
+Content-Type: application/json
+
+{
+    "firstName": "Game Retrô Portátil R36S"
+}
+
+###
+
+# Essa ação de atualizar, por padrão, atualiza apenas os campos informados.
+PATCH {{localhost}}/Products(id={{id}})
+Content-Type: application/json
+
+{
+    "name": "Nintendo Switch"
+}
