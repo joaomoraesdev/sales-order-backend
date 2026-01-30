@@ -62,3 +62,8 @@ GET {{localhost}}/SalesOrderHeaders?$filter=totalAmount le 2000000&$expand=items
 
 # Expandindo os itens, pordoutos e customers e filtrando
 GET {{localhost}}/SalesOrderHeaders?$filter=totalAmount le 2000000&$expand=items($expand=product;$filter=quantity le 30),customer
+
+###
+
+# Selecionar somente customer e id do sales order header
+GET {{localhost}}/SalesOrderHeaders?$select=id,customer&$expand=customer($select=email)
