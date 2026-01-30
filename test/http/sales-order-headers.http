@@ -67,3 +67,13 @@ GET {{localhost}}/SalesOrderHeaders?$filter=totalAmount le 2000000&$expand=items
 
 # Selecionar somente customer e id do sales order header
 GET {{localhost}}/SalesOrderHeaders?$select=id,customer&$expand=customer($select=email)
+
+###
+
+# Descobrindo a qtd de registros
+GET {{localhost}}/SalesOrderHeaders/$count
+
+###
+
+# Paginando os registros
+GET {{localhost}}/SalesOrderHeaders?$skip=10&$top=5
