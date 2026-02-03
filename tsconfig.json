@@ -9,8 +9,11 @@
     "esModuleInterop": true,
     "outDir": "./dist",
     "baseUrl": "./",
-    "rootDir": "./"
+    "rootDir": "./",
+    "paths": {
+      "@models/*": ["./@cds-models/*/index.ts"]
+    }
   },
-  "include": ["srv"],
+  "include": ["srv", "types/**/*.d.ts"],
   "exclude": ["node_modules"]
 }

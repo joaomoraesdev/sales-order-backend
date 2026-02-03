@@ -1,2 +1,13 @@
-const funcao = (variavel: string) => console.log(variavel);
-funcao('123');
+import { Service } from "@sap/cds";
+import { Customers } from '@models/sales';
+import { getMaxListeners } from "node:cluster";
+
+export default (service: Service) => {
+    service.after('READ', 'Customers', (results: Customers) => {
+        results.forEach(customer => {
+            if(!customer.email?.includes('@')) {
+                customer.email = `${customer.email}@gmail.com`;
+            }
+        })
+    });
+}
