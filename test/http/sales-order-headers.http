@@ -24,7 +24,7 @@ Content-Type: application/json
         {
             "id": "59d903ae-bdcd-4f70-bc24-58b137db2cf4",
             "header_id": "{{id}}",
-            "product_id": "{{productId1}}",
+            "product_id": "{{productId2}}",
             "quantity": 10,
             "price": 2.99
         },
@@ -59,12 +59,12 @@ GET {{localhost}}/SalesOrderHeaders?$filter=totalAmount le 2000000
 
 ###
 
-# Expandindo os itens, prodoutos e customers
+# Expandindo os itens, produtos e customers
 GET {{localhost}}/SalesOrderHeaders?$filter=totalAmount le 2000000&$expand=items($expand=product),customer
 
 ###
 
-# Expandindo os itens, pordoutos e customers e filtrando
+# Expandindo os itens, produtos e customers e filtrando
 GET {{localhost}}/SalesOrderHeaders?$filter=totalAmount le 2000000&$expand=items($expand=product;$filter=quantity le 30),customer
 
 ###

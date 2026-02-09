@@ -1,27 +1,27 @@
 import cds, { Request, Service } from "@sap/cds";
-import { Customers, Product, Products, SalesOrderItem, SalesOrderItems } from '@models/sales';
+import { Customers, Product, Products, SalesOrderItem, SalesOrderItems, SalesOrderHeaders } from '@models/sales';
 
 export default (service: Service) => {
     service.after('READ', 'Customers', (results: Customers) => {
         results.forEach(customer => {
-            if(!customer.email?.includes('@')) {
+            if (!customer.email?.includes('@')) {
                 customer.email = `${customer.email}@gmail.com`;
             }
         })
     });
 
-    service.before('CREATE', 'SalesOrderHeaders', async(request: Request) => {
+    service.before('CREATE', 'SalesOrderHeaders', async (request: Request) => {
         const params = request.data;
         const items: SalesOrderItems = params.items;
-        if(!params.customer_id) {
+        if (!params.customer_id) {
             return request.reject(400, 'Customer inválido');
         }
-        if(!params.items || params.items?.length === 0) {
+        if (!params.items || params.items?.length === 0) {
             return request.reject(400, 'Itens inválidos');
         }
         const customerQuery = SELECT.one.from('sales.Customers').where({ id: params.customer_id });
         const customer = await cds.run(customerQuery);
-        if(!customer) {
+        if (!customer) {
             return request.reject(404, 'Customer não encontrado');
         }
         const productsIds = params.items.map((item: SalesOrderItem) => item.product_id);
@@ -30,10 +30,30 @@ export default (service: Service) => {
 
         for (const item of params.items) {
             const dbProduct = products.find(product => product.id === item.product_id);
-            if(!dbProduct)
+            if (!dbProduct)
                 return request.reject(404, `Produto: ${item.product_id} | Status: Não encontrado`);
-            if(products.some((product) => product.stock === 0))
+            if (products.some((product) => product.stock === 0))
                 return request.reject(400, `Produto: ${dbProduct.name} - ${dbProduct.id} | Status: sem estoque disponível`);
+        }
+    });
+
+    service.after('CREATE', 'SalesOrderHeaders', async (results: SalesOrderHeaders) => {
+        const headersArray = Array.isArray(results) ? results : [results] as SalesOrderHeaders;
+        for (const header of headersArray) {
+            const items = header.items as SalesOrderItems;
+            const productsData = items.map(item => ({
+                id: item.product_id as string,
+                quantity: item.quantity as number
+            }));
+
+            const productsIds: string[] = productsData.map(productData => productData.id);
+            const productQuery = SELECT.from('sales.Products').where({ id: productsIds });
+            const products: Products = await cds.run(productQuery);
+            for(const productData of productsData) {
+                const foundProduct = products.find(product => product.id === productData.id) as Product;
+                foundProduct.stock = (foundProduct.stock as number) - productData.quantity;
+                await cds.update('sales.Products').where({ id: foundProduct.id }).with({ stock: foundProduct.stock })
+            }
         }
     });
 }
