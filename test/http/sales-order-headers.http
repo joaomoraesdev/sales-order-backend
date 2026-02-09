@@ -26,15 +26,15 @@ Authorization: Basic joao:@Teste123
             "id": "59d903ae-bdcd-4f70-bc24-58b137db2cf4",
             "header_id": "{{id}}",
             "product_id": "{{productId2}}",
-            "quantity": 10,
-            "price": 2.99
+            "quantity": 1,
+            "price": 15001
         },
         {
             "id": "688ebc37-0da1-4a02-a474-ab34990e9845",
             "header_id": "{{id}}",
             "product_id": "{{productId2}}",
-            "quantity": 5,
-            "price": 1.99
+            "quantity": 1,
+            "price": 15001
         }
     ]
 }

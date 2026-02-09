@@ -1,15 +1,16 @@
 import cds, { Request, Service } from "@sap/cds";
 import { Customers, Product, Products, SalesOrderItem, SalesOrderItems, SalesOrderHeaders } from '@models/sales';
+import { totalmem } from "node:os";
 
 export default (service: Service) => {
     // Authentications
     service.before('READ', '*', (request: Request) => {
-        if(!request.user.is('read_only_user'))
+        if (!request.user.is('read_only_user'))
             return request.reject(403, "Não autorizada a leitura");
     });
 
     service.before(['WRITE', 'DELETE'], '*', (request: Request) => {
-        if(!request.user.is('admin'))
+        if (!request.user.is('admin'))
             return request.reject(403, "Não autorizada a escrita/deleção");
     });
 
@@ -47,9 +48,17 @@ export default (service: Service) => {
             if (products.some((product) => product.stock === 0))
                 return request.reject(400, `Produto: ${dbProduct.name} - ${dbProduct.id} | Status: sem estoque disponível`);
         }
+        let totalAmount = 0;
+        items.forEach(item => {
+            totalAmount += (item.quantity as number) * (item.price as number)
+        });
+        if (totalAmount > 30000) {
+            totalAmount -= totalAmount * 0.1
+        }
+        request.data.totalAmount = totalAmount;
     });
 
-    service.after('CREATE', 'SalesOrderHeaders', async (results: SalesOrderHeaders) => {
+    service.after('CREATE', 'SalesOrderHeaders', async (results: SalesOrderHeaders, request: Request) => {
         const headersArray = Array.isArray(results) ? results : [results] as SalesOrderHeaders;
         for (const header of headersArray) {
             const items = header.items as SalesOrderItems;
@@ -66,6 +75,16 @@ export default (service: Service) => {
                 foundProduct.stock = (foundProduct.stock as number) - productData.quantity;
                 await cds.update('sales.Products').where({ id: foundProduct.id }).with({ stock: foundProduct.stock })
             }
+
+            const headersAsString = JSON.stringify(header);
+            const userAsString = JSON.stringify(request.user);
+
+            const log = [{
+                header_id: header.id,
+                userData: userAsString,
+                orderData: headersAsString
+            }];
+            await cds.create('sales.SalesOrderLogs').entries(log);
         }
     });
 }

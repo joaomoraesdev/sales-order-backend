@@ -2,7 +2,7 @@ using { managed } from '@sap/cds/common';
 
 namespace sales;
 
-entity SalesOrderHeaders : managed {
+entity SalesOrderHeaders: managed {
     key id : UUID;
         customer: Association to Customers;
         totalAmount : Decimal(15,2);
@@ -29,4 +29,11 @@ entity Products {
         name: String(255);
         price: Decimal(15,2);
         stock: Integer;
+}
+
+entity SalesOrderLogs: managed {
+    key id: UUID;
+        header: Association to SalesOrderHeaders;
+        userData: LargeString;
+        orderData: LargeString;
 }
