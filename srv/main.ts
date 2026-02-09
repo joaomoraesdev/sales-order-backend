@@ -1,6 +1,5 @@
-import { Service } from "@sap/cds";
-import { Customers } from '@models/sales';
-import { getMaxListeners } from "node:cluster";
+import cds, { Request, Service } from "@sap/cds";
+import { Customers, Product, Products, SalesOrderItem, SalesOrderItems } from '@models/sales';
 
 export default (service: Service) => {
     service.after('READ', 'Customers', (results: Customers) => {
@@ -9,5 +8,32 @@ export default (service: Service) => {
                 customer.email = `${customer.email}@gmail.com`;
             }
         })
+    });
+
+    service.before('CREATE', 'SalesOrderHeaders', async(request: Request) => {
+        const params = request.data;
+        const items: SalesOrderItems = params.items;
+        if(!params.customer_id) {
+            return request.reject(400, 'Customer inválido');
+        }
+        if(!params.items || params.items?.length === 0) {
+            return request.reject(400, 'Itens inválidos');
+        }
+        const customerQuery = SELECT.one.from('sales.Customers').where({ id: params.customer_id });
+        const customer = await cds.run(customerQuery);
+        if(!customer) {
+            return request.reject(404, 'Customer não encontrado');
+        }
+        const productsIds = params.items.map((item: SalesOrderItem) => item.product_id);
+        const productQuery = SELECT.from('sales.Products').where({ id: productsIds });
+        const products: Products = await cds.run(productQuery);
+
+        for (const item of params.items) {
+            const dbProduct = products.find(product => product.id === item.product_id);
+            if(!dbProduct)
+                return request.reject(404, `Produto: ${item.product_id} | Status: Não encontrado`);
+            if(products.some((product) => product.stock === 0))
+                return request.reject(400, `Produto: ${dbProduct.name} - ${dbProduct.id} | Status: sem estoque disponível`);
+        }
     });
 }
