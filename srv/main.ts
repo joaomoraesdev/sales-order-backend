@@ -2,6 +2,18 @@ import cds, { Request, Service } from "@sap/cds";
 import { Customers, Product, Products, SalesOrderItem, SalesOrderItems, SalesOrderHeaders } from '@models/sales';
 
 export default (service: Service) => {
+    // Authentications
+    service.before('READ', '*', (request: Request) => {
+        if(!request.user.is('read_only_user'))
+            return request.reject(403, "Não autorizada a leitura");
+    });
+
+    service.before(['WRITE', 'DELETE'], '*', (request: Request) => {
+        if(!request.user.is('admin'))
+            return request.reject(403, "Não autorizada a escrita/deleção");
+    });
+
+    // Event Handlers
     service.after('READ', 'Customers', (results: Customers) => {
         results.forEach(customer => {
             if (!customer.email?.includes('@')) {
@@ -49,7 +61,7 @@ export default (service: Service) => {
             const productsIds: string[] = productsData.map(productData => productData.id);
             const productQuery = SELECT.from('sales.Products').where({ id: productsIds });
             const products: Products = await cds.run(productQuery);
-            for(const productData of productsData) {
+            for (const productData of productsData) {
                 const foundProduct = products.find(product => product.id === productData.id) as Product;
                 foundProduct.stock = (foundProduct.stock as number) - productData.quantity;
                 await cds.update('sales.Products').where({ id: foundProduct.id }).with({ stock: foundProduct.stock })
