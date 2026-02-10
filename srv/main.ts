@@ -1,6 +1,7 @@
 import cds, { Request, Service } from "@sap/cds";
-import { Customers, Product, Products, SalesOrderItem, SalesOrderItems, SalesOrderHeaders } from '@models/sales';
-import { totalmem } from "node:os";
+import { Customers, Product, Products, SalesOrderItem, SalesOrderItems, SalesOrderHeaders, Customer } from '@models/sales';
+import { customerController } from "./factories/controllers/customer";
+import { FullRequestParams } from "./routes/protocols";
 
 export default (service: Service) => {
     // Authentications
@@ -15,12 +16,8 @@ export default (service: Service) => {
     });
 
     // Event Handlers
-    service.after('READ', 'Customers', (results: Customers) => {
-        results.forEach(customer => {
-            if (!customer.email?.includes('@')) {
-                customer.email = `${customer.email}@gmail.com`;
-            }
-        })
+    service.after('READ', 'Customers', (customersList: Customers, request) => {
+        (request as unknown as FullRequestParams<Customers>).results = customerController.afterRead(customersList);
     });
 
     service.before('CREATE', 'SalesOrderHeaders', async (request: Request) => {
