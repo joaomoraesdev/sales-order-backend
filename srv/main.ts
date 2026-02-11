@@ -2,6 +2,7 @@ import cds, { Request, Service } from "@sap/cds";
 import { Customers, Product, Products, SalesOrderItem, SalesOrderItems, SalesOrderHeaders, Customer } from '@models/sales';
 import { customerController } from "./factories/controllers/customer";
 import { FullRequestParams } from "./routes/protocols";
+import { salesOrderHeaderController } from "./factories/controllers/sales-order-header";
 
 export default (service: Service) => {
     // Authentications
@@ -19,40 +20,13 @@ export default (service: Service) => {
     service.after('READ', 'Customers', (customersList: Customers, request) => {
         (request as unknown as FullRequestParams<Customers>).results = customerController.afterRead(customersList);
     });
-
+    
     service.before('CREATE', 'SalesOrderHeaders', async (request: Request) => {
-        const params = request.data;
-        const items: SalesOrderItems = params.items;
-        if (!params.customer_id) {
-            return request.reject(400, 'Customer inválido');
-        }
-        if (!params.items || params.items?.length === 0) {
-            return request.reject(400, 'Itens inválidos');
-        }
-        const customerQuery = SELECT.one.from('sales.Customers').where({ id: params.customer_id });
-        const customer = await cds.run(customerQuery);
-        if (!customer) {
-            return request.reject(404, 'Customer não encontrado');
-        }
-        const productsIds = params.items.map((item: SalesOrderItem) => item.product_id);
-        const productQuery = SELECT.from('sales.Products').where({ id: productsIds });
-        const products: Products = await cds.run(productQuery);
-
-        for (const item of params.items) {
-            const dbProduct = products.find(product => product.id === item.product_id);
-            if (!dbProduct)
-                return request.reject(404, `Produto: ${item.product_id} | Status: Não encontrado`);
-            if (products.some((product) => product.stock === 0))
-                return request.reject(400, `Produto: ${dbProduct.name} - ${dbProduct.id} | Status: sem estoque disponível`);
-        }
-        let totalAmount = 0;
-        items.forEach(item => {
-            totalAmount += (item.quantity as number) * (item.price as number)
-        });
-        if (totalAmount > 30000) {
-            totalAmount -= totalAmount * 0.1
-        }
-        request.data.totalAmount = totalAmount;
+        const result = await salesOrderHeaderController.beforeCreate(request.data);
+        if(result.hasError)
+            return request.reject(400, result.error?.message as string);
+        
+        request.data.totalAmount = result.totalAmount;
     });
 
     service.after('CREATE', 'SalesOrderHeaders', async (results: SalesOrderHeaders, request: Request) => {
