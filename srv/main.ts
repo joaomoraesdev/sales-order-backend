@@ -29,33 +29,7 @@ export default (service: Service) => {
         request.data.totalAmount = result.totalAmount;
     });
 
-    service.after('CREATE', 'SalesOrderHeaders', async (results: SalesOrderHeaders, request: Request) => {
-        const headersArray = Array.isArray(results) ? results : [results] as SalesOrderHeaders;
-        for (const header of headersArray) {
-            const items = header.items as SalesOrderItems;
-            const productsData = items.map(item => ({
-                id: item.product_id as string,
-                quantity: item.quantity as number
-            }));
-
-            const productsIds: string[] = productsData.map(productData => productData.id);
-            const productQuery = SELECT.from('sales.Products').where({ id: productsIds });
-            const products: Products = await cds.run(productQuery);
-            for (const productData of productsData) {
-                const foundProduct = products.find(product => product.id === productData.id) as Product;
-                foundProduct.stock = (foundProduct.stock as number) - productData.quantity;
-                await cds.update('sales.Products').where({ id: foundProduct.id }).with({ stock: foundProduct.stock })
-            }
-
-            const headersAsString = JSON.stringify(header);
-            const userAsString = JSON.stringify(request.user);
-
-            const log = [{
-                header_id: header.id,
-                userData: userAsString,
-                orderData: headersAsString
-            }];
-            await cds.create('sales.SalesOrderLogs').entries(log);
-        }
+    service.after('CREATE', 'SalesOrderHeaders', async (salesOrderHeaders: SalesOrderHeaders, request: Request) => {
+        await salesOrderHeaderController.afterCreate(salesOrderHeaders, request.user)
     });
 }
