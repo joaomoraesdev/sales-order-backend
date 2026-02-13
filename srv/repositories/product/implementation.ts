@@ -19,4 +19,8 @@ export class ProductRepositoryImpl implements ProductRepository {
             stock: p.stock as number
         }));
     }
+
+    public async updateStock(product: ProductModel): Promise<void> {
+        await UPDATE('sales.Products').where({ id: product.id }).with({ stock: product.stock });
+    }
 }
