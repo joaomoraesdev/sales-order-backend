@@ -1,5 +1,5 @@
-import cds, { Request, Service } from "@sap/cds";
-import { Customers, Product, Products, SalesOrderItem, SalesOrderItems, SalesOrderHeaders, Customer } from '@models/sales';
+import { Request, Service } from "@sap/cds";
+import { Customers, SalesOrderHeaders } from '@models/sales';
 import { customerController } from "./factories/controllers/customer";
 import { FullRequestParams } from "./routes/protocols";
 import { salesOrderHeaderController } from "./factories/controllers/sales-order-header";

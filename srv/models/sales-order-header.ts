@@ -1,4 +1,3 @@
-import { stringify } from "node:querystring";
 import { SalesOrderItemModel } from "./sales-order-item";
 
 type SalesOrderHeaderProps = {
@@ -12,7 +11,7 @@ type SalesOrderHeaderPropsWithoutIdAndTotalAmount = Omit<SalesOrderHeaderProps, 
 
 type CreationPayload = {
     customer_id: SalesOrderHeaderProps['customerId'];
-    items?: any[];
+    items?: SalesOrderItemModel[];
 }
 
 type CreationPayloadValidationResult = {
