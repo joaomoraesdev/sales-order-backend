@@ -27,7 +27,9 @@
   },
   "scripts": {
     "start": "cds-serve",
-    "dev": "cds-tsx watch"
+    "dev": "cds-tsx watch",
+    "lint": "eslint ./srv",
+    "lint-fix": "eslint ./srv --fix"
   },
   "private": true
 }
