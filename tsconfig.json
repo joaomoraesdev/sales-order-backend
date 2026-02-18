@@ -3,6 +3,7 @@
     "target": "es2024",
     "module": "node16",
     "moduleResolution": "node16",
+    "skipLibCheck": true,
     "strict": true,
     "strictNullChecks": true,
     "noImplicitAny": true,
@@ -12,6 +13,7 @@
     "rootDir": "./",
     "paths": {
       "@models/*": ["./@cds-models/*/index.ts"]
+      ,"@sap/cds": ["types/cds"]
     }
   },
   "include": ["srv", "types/**/*.d.ts"],
