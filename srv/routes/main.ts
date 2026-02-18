@@ -1,12 +1,12 @@
-import './configs/module-alias';
+import '../configs/module-alias';
 
 import { Request, Service } from "@sap/cds";
 
 import { Customers, SalesOrderHeaders } from '@models/sales';
 
-import { customerController } from "./factories/controllers/customer";
-import { FullRequestParams } from "./routes/protocols";
-import { salesOrderHeaderController } from "./factories/controllers/sales-order-header";
+import { customerController } from "../factories/controllers/customer";
+import { FullRequestParams } from "../routes/protocols";
+import { salesOrderHeaderController } from "../factories/controllers/sales-order-header";
 
 export default (service: Service) => {
     // Authentications

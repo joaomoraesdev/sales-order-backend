@@ -1,4 +1,4 @@
-using { sales } from '../db/schema';
+using { sales } from '../../db/schema';
 
 // Pode ser com base nas roles tbm: "admin" ou "read_only_user"
 @requires: 'authenticated-user'
