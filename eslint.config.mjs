@@ -1,29 +1,37 @@
 import prettier from 'eslint-plugin-prettier';
 import pluginJs from '@eslint/js';
 import globals from 'globals';
-import tseslint from 'typescript-eslint';
+import tseslint from '@typescript-eslint/eslint-plugin';
+import tsParser from '@typescript-eslint/parser';
 
 export default [
     {
         languageOptions: {
-            globals: globals.node
+            globals: globals.node,
+            parser: tsParser,
+            parserOptions: {
+                ecmaVersion: 'latest',
+                sourceType: 'module',
+                project: ['./tsconfig.json']
+            }
         }
     },
     pluginJs.configs.recommended,
-    ...tseslint.configs.recommended,
     {
-        ignores: ['./gen/*.{js, ts}'],
-        files: ['**/*.{mjs, js, ts}'],
-        pluggins: {
+        ignores: ['./gen/*.{js,ts}'],
+        files: ['**/*.{mjs,js,ts}'],
+        plugins: {
+            '@typescript-eslint': tseslint,
             prettier
         },
+        
         rules: {
             'prettier/prettier': [
                 'error',
                 {
                     singleQuote: true,
                     tabWidth: 4,
-                    traillingComma: 'none',
+                    trailingComma: 'none',
                     bracketSpacing: true,
                     printWidth: 120
                 }
@@ -31,11 +39,12 @@ export default [
             '@typescript-eslint/no-unused-vars': [
                 'error',
                 {
-                    caughtErros: 'all',
-                    caughtErrosIgnorePattern: '^ignore',
+                    caughtErrors: 'all',
+                    caughtErrorsIgnorePattern: '^ignore',
                     ignoreRestSiblings: true
                 }
             ],
+            'no-unused-vars': 'off',
             'eol-last': 'error',
             indent: [
                 'error',
@@ -50,13 +59,7 @@ export default [
             quotes: ['error', 'single'],
             'quote-props': ['error', 'as-needed'],
             semi: ['error', 'always'],
-            'sort-imports': [
-                'error',
-                {
-                    memberSyntaxSortOder: ['single', 'all', 'multiple', 'none'],
-                    allowSeparatedGroups: true
-                }
-            ]
+            'sort-imports': 'off'
         }
     }
 ]

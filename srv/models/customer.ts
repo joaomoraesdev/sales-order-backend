@@ -3,10 +3,10 @@ export type CustomerProps = {
     firstName: string;
     lastName: string;
     email: string;
-}
+};
 
 export class CustomerModel {
-    constructor(private props: CustomerProps) { }
+    constructor(private props: CustomerProps) {}
 
     public static with(props: CustomerProps): CustomerModel {
         return new CustomerModel(props);
@@ -41,6 +41,6 @@ export class CustomerModel {
             firstName: this.props.firstName,
             lastName: this.props.lastName,
             email: this.props.email
-        }
+        };
     }
 }

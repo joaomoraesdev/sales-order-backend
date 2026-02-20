@@ -6,26 +6,26 @@
 // }
 
 type SalesOrderLogProps = {
-    id: string,
-    headerId: string,
-    userData: string,
-    orderData: string
-}
+    id: string;
+    headerId: string;
+    userData: string;
+    orderData: string;
+};
 
 type SalesOrderLogWithoutIdProps = Omit<SalesOrderLogProps, 'id'>;
 
 type SalesOrderLogDbProps = Omit<SalesOrderLogProps, 'headerId'> & {
     header_id: string;
-}
+};
 
 export class SalesOrderLogModel {
-    constructor(private props: SalesOrderLogProps) { }
+    constructor(private props: SalesOrderLogProps) {}
 
     public static create(props: SalesOrderLogWithoutIdProps): SalesOrderLogModel {
         return new SalesOrderLogModel({
             ...props,
             id: crypto.randomUUID()
-        })
+        });
     }
 
     public get id() {
@@ -50,6 +50,6 @@ export class SalesOrderLogModel {
             header_id: this.props.headerId,
             userData: this.props.userData,
             orderData: this.props.orderData
-        }
+        };
     }
 }
