@@ -1,12 +1,12 @@
 type SalesReportByDaysProps = {
-    salesOrderId: String;
-    salesOrderAmount: Number;
-    customerId: String;
-    customerFullname: String;
+    salesOrderId: string;
+    salesOrderTotalAmount: number;
+    customerId: string;
+    customerFullname: string;
 };
 
 export class SalesReportModel {
-    constructor(private props: SalesReportByDaysProps) {}
+    constructor(private props: SalesReportByDaysProps) { }
 
     public static with(props: SalesReportByDaysProps): SalesReportModel {
         return new SalesReportModel(props);
@@ -16,8 +16,8 @@ export class SalesReportModel {
         return this.props.salesOrderId;
     }
 
-    public get salesOrderAmount() {
-        return this.props.salesOrderAmount;
+    public get salesOrderTotalAmount() {
+        return this.props.salesOrderTotalAmount;
     }
 
     public get customerId() {
@@ -26,5 +26,14 @@ export class SalesReportModel {
 
     public get customerFullname() {
         return this.props.customerFullname;
+    }
+
+    public toObject(): SalesReportByDaysProps {
+        return {
+            salesOrderId: this.props.salesOrderId,
+            salesOrderTotalAmount: this.props.salesOrderTotalAmount,
+            customerId: this.props.customerId,
+            customerFullname: this.props.customerFullname
+        };
     }
 }
