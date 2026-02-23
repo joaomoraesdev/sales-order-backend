@@ -8,7 +8,7 @@ type Params {
 
 type ExpectedResult {
     salesOrderId     : sales.SalesOrderHeaders:id;
-    salesOrderAmount : sales.SalesOrderHeaders:totalAmount;
+    salesOrderTotalAmount : sales.SalesOrderHeaders:totalAmount;
     customerId       : sales.Customers:id;
     customerFullname : String(120);
 };
