@@ -42,4 +42,11 @@ export default (service: Service) => {
         const days = request.data?.days || 7;
         return salesReportController.findByDays(days);
     });
+
+    service.on('getSaleReportByCustomerId', async (request: Request) => {
+        console.log('teste');
+        const [{ id: customerId }] = request.params as unknown as { id: string }[];
+        console.log(request.params);
+        return salesReportController.findByCustomerId(customerId);
+    });
 };
