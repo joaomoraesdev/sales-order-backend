@@ -1,11 +1,13 @@
 import '../configs/module-alias';
 
-import { salesOrderHeaderController } from '../factories/controllers/sales-order-header';
-
 import { Request, Service } from '@sap/cds';
+
 import { Customers, SalesOrderHeaders } from '@models/sales';
 
+import { salesOrderHeaderController } from '../factories/controllers/sales-order-header';
 import { SalesReportRepositoryImpl } from 'srv/repositories/sales-report/implementation';
+import { salesReportController } from '../factories/controllers/sales-report';
+import { request } from 'axios';
 
 /* eslint-disable max-lines-per-function */
 export default (service: Service) => {
@@ -36,18 +38,8 @@ export default (service: Service) => {
         await salesOrderHeaderController.afterCreate(salesOrderHeaders, request.user);
     });
 
-    service.on('getSaleReportByDays', async () => {
-        const repository = new SalesReportRepositoryImpl();
-        const result = await repository.findByDays(1);
-        console.log(result);
-
-        return [
-            {
-                salesOrderId: '78904813-ef9c-4240-8b88-be2c1c3a3cc9',
-                salesOrderAmount: 10,
-                customerId: '30800373-c03b-44a3-b96f-478868aebc5d',
-                customerFullname: 'Han Solo'
-            }
-        ];
+    service.on('getSaleReportByDays', async (request: Request) => {
+        const days = request.data?.days || 7;
+        return salesReportController.findByDays(days);
     });
 };
