@@ -1,6 +1,6 @@
 import cds from '@sap/cds';
 
-import { ExpectedResult as SalesReportByDays } from '@models/db/types/SalesReportByDays';
+import { ExpectedResult as SalesReportByDays } from '@cds-models/db/types/SalesReportByDays';
 
 import { SalesReportModel } from 'srv/models/sales-report';
 import { SalesReportRepository } from './protocols';
@@ -13,26 +13,23 @@ export class SalesReportRepositoryImpl implements SalesReportRepository {
         subtractedDays.setDate(subtractedDays.getDate() - days);
         const subtractedDaysISOString = subtractedDays.toISOString();
 
-        // eslint-disable-next-line quotes
-        const customerFullNameExpr = "customer.firstName || ' ' || customer.lastName as customerFullName";
-
         const sql = SELECT.from('sales.SalesOrderHeaders')
             .columns(
                 'id as salesOrderId',
-                'totalAmount as SalesOrderTotalAmount',
+                'totalAmount as salesOrderTotalAmount',
                 'customer.id as customerId',
-                customerFullNameExpr
+                `customer.firstName || ' ' || customer.lastName as customerFullname`
             )
             .where({ createdAt: { between: subtractedDaysISOString, and: today } });
 
         const salesReports = await cds.run(sql);
 
         if (salesReports.length === 0) return null;
-
+        
         return salesReports.map((salesReport: SalesReportByDays) =>
             SalesReportModel.with({
                 salesOrderId: salesReport.salesOrderId as string,
-                salesOrderAmount: salesReport.salesOrderAmount as number,
+                salesOrderTotalAmount: salesReport.salesOrderTotalAmount as number,
                 customerId: salesReport.customerId as string,
                 customerFullname: salesReport.customerFullname as string
             })
