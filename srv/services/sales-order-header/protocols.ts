@@ -4,6 +4,7 @@ import { Payload as BulkCreateSalesOrderPayload } from '@models/db/types/BulkCre
 import { SalesOrderHeader, SalesOrderHeaders } from '@models/sales';
 import { ProductModel } from 'srv/models/product';
 import { CustomerModel } from 'srv/models/customer';
+import { SalesOrderHeaderModel } from 'srv/models/sales-order-header';
 
 export type CreationPayloadValidationResult = {
     hasError: boolean;
@@ -11,6 +12,7 @@ export type CreationPayloadValidationResult = {
     products?: ProductModel[];
     customer?: CustomerModel;
     error?: Error;
+    headers?: BulkCreateSalesOrderPayload[];
 };
 
 export interface SalesOrderHeaderService {
