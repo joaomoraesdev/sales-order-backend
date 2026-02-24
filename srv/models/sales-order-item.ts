@@ -1,6 +1,6 @@
 import { ProductModel } from './product';
 
-type SalesOrderItemsProps = {
+type SalesOrderItemProps = {
     id: string;
     productId: string;
     quantity: number;
@@ -8,10 +8,14 @@ type SalesOrderItemsProps = {
     products: ProductModel[];
 };
 
-type SalesOrderItemsWithoutId = Omit<SalesOrderItemsProps, 'id'>;
+type SalesOrderItemsWithoutId = Omit<SalesOrderItemProps, 'id'>;
+
+export type SalesOrderItemPropsWithSnakeCaseProductId = Omit<SalesOrderItemProps, 'productId' | 'products'> & {
+    product_id: SalesOrderItemProps['productId'];
+};
 
 type CreationPayload = {
-    product_id: SalesOrderItemsProps['productId'];
+    product_id: SalesOrderItemProps['productId'];
 };
 
 type CreationPayloadValidationResult = {
@@ -20,7 +24,7 @@ type CreationPayloadValidationResult = {
 };
 
 export class SalesOrderItemModel {
-    constructor(private props: SalesOrderItemsProps) {}
+    constructor(private props: SalesOrderItemProps) {}
 
     public static create(props: SalesOrderItemsWithoutId): SalesOrderItemModel {
         return new SalesOrderItemModel({
@@ -68,5 +72,14 @@ export class SalesOrderItemModel {
         return {
             hasError: false
         };
+    }
+
+    public toCreationObject(): SalesOrderItemPropsWithSnakeCaseProductId {
+        return {
+            id: this.props.id,
+            price: this.props.price,
+            quantity: this.props.quantity,
+            product_id: this.props.productId
+        }
     }
 }
