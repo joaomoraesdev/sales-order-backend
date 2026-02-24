@@ -1,6 +1,7 @@
+import cds from '@sap/cds';
+
 import { SalesOrderLogModel } from 'srv/models/sales-order-log';
 import { SalesOrderLogRepository } from './protocols';
-import cds from '@sap/cds';
 
 export class SalesOrderLogRepositoryImpl implements SalesOrderLogRepository {
     public async create(logs: SalesOrderLogModel[]): Promise<void> {
