@@ -49,4 +49,9 @@ export default (service: Service) => {
         console.log(request.params);
         return salesReportController.findByCustomerId(customerId);
     });
+
+    service.on('bulkCreateSalesOrder', async (request: Request) => {
+        const { user, data } = request;
+        return salesOrderHeaderController.bulkCreate(data.payload, user);
+    });
 };

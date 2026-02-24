@@ -1,11 +1,14 @@
 using {sales} from '../../db/schema';
-using {db.types.SalesReport} from '../../db/types';
+using {db.types.SalesReport, db.types.BulkCreateSalesOrder} from '../../db/types';
 
 // Pode ser com base nas roles tbm: "admin" ou "read_only_user"
 // Entities
 @requires: 'authenticated-user'
 service MainService {
-    entity SalesOrderHeaders  as projection on sales.SalesOrderHeaders;
+    entity SalesOrderHeaders  as projection on sales.SalesOrderHeaders
+        actions {
+            action teste();
+        };
 
     entity Customers          as projection on sales.Customers
         actions {
@@ -17,6 +20,8 @@ service MainService {
     entity SalesOrderStatuses as projection on sales.SalesOrderStatuses;
 }
 
+action       teste2();
+
 // Functions
 extend service MainService with {
     function getSaleReportByDays(days: SalesReport.Params:days) returns array of SalesReport.ExpectedResult;
@@ -24,5 +29,5 @@ extend service MainService with {
 
 // Actions
 extend service MainService with {
-
+    action bulkCreateSalesOrder(payload: array of BulkCreateSalesOrder.Payload ) returns BulkCreateSalesOrder.ExpectedResult;
 }
