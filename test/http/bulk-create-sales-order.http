@@ -1,0 +1,57 @@
+@localhost=http://localhost:4004/odata/v4/main
+@id=518ac8eb-b57e-4962-b2ee-df9eaa94635e
+@customerId=27115064-69e6-4e81-9eae-97a2bbab6598
+
+# Produto sem estoque
+@productId1=23591584-08db-4211-a124-7f98124bd0da
+
+@productId2=7166608f-e426-4a4e-b629-24d38c4495de
+
+GET {{localhost}}/bulkCreateSalesOrder
+Content-Type: application/json
+
+###
+
+POST {{localhost}}/bulkCreateSalesOrder
+Content-Type: application/json
+Authorization: Basic joao:@Teste123
+
+{
+    "payload": [
+        {
+            // Aqui a nomenclatrua do campo deve ser exatamente igual ao definido no modelo NomeDaColunaPai_NomeDoCampoFilho
+            "id": "{{id}}",
+            "customer_id": "{{customerId}}",
+            "items": [
+                {
+                    "id": "59d903ae-bdcd-4f70-bc24-58b137db2cf4",
+                    "header_id": "{{id}}",
+                    "product_id": "{{productId2}}",
+                    "quantity": 1,
+                    "price": 15001
+                },
+                {
+                    "id": "688ebc37-0da1-4a02-a474-ab34990e9845",
+                    "header_id": "{{id}}",
+                    "product_id": "{{productId2}}",
+                    "quantity": 1,
+                    "price": 15001
+                }
+            ]
+        },
+        {
+            // Aqui a nomenclatrua do campo deve ser exatamente igual ao definido no modelo NomeDaColunaPai_NomeDoCampoFilho
+            "id": "{{id}}",
+            "customer_id": "{{customerId}}",
+            "items": [
+                {
+                    "id": "59d903ae-bdcd-4f70-bc24-58b137db2cf4",
+                    "header_id": "{{id}}",
+                    "product_id": "{{productId2}}",
+                    "quantity": 5,
+                    "price": 151
+                }
+            ]
+        }
+    ]
+}
