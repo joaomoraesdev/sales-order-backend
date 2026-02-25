@@ -5,10 +5,7 @@ import { Request, Service } from '@sap/cds';
 import { Customers, SalesOrderHeaders } from '@models/sales';
 
 import { salesOrderHeaderController } from '../factories/controllers/sales-order-header';
-import { SalesReportRepositoryImpl } from 'srv/repositories/sales-report/implementation';
 import { salesReportController } from '../factories/controllers/sales-report';
-import { request } from 'axios';
-import { SalesOrderHeaderRepositoryImpl } from 'srv/repositories/sales-order-header/implementation';
 
 /* eslint-disable max-lines-per-function */
 export default (service: Service) => {
@@ -59,6 +56,6 @@ export default (service: Service) => {
     service.on('cloneSalesOrder', async (request: Request) => {
         const { user } = request;
         const [{ id }] = request.params as unknown as { id: string }[];
-        return salesOrderHeaderController.cloneSalesOrder(id, user)
+        return salesOrderHeaderController.cloneSalesOrder(id, user);
     });
 };
