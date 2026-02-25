@@ -7,7 +7,7 @@ using {db.types.SalesReport, db.types.BulkCreateSalesOrder} from '../../db/types
 service MainService {
     entity SalesOrderHeaders  as projection on sales.SalesOrderHeaders
         actions {
-            action teste();
+            action cloneSalesOrder() returns Boolean;
         };
 
     entity Customers          as projection on sales.Customers

@@ -87,3 +87,12 @@ GET {{localhost}}/SalesOrderHeaders?$skip=10&$top=5
 
 # Buscando dados com search
 GET {{localhost}}/SalesOrderHeaders?$search=4p4ca&$filter=totalAmount lt 500
+
+###
+
+# Funcionalidade de clonar pedidos
+POST {{localhost}}/SalesOrderHeaders(78904813-ef9c-4240-8b88-be2c1c3a3cc9)/cloneSalesOrder
+Authorization: Basic joao:@Teste123
+Content-Type: application/json
+
+{}

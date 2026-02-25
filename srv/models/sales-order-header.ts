@@ -3,8 +3,8 @@ import { SalesOrderItemModel, SalesOrderItemPropsWithSnakeCaseProductId } from '
 type SalesOrderHeaderProps = {
     id: string;
     customerId: string;
-    items: SalesOrderItemModel[];
     totalAmount: number;
+    items: SalesOrderItemModel[];
 };
 
 type SalesOrderHeaderPropsWithoutIdAndTotalAmount = Omit<SalesOrderHeaderProps, 'id' | 'totalAmount'>;
@@ -29,9 +29,9 @@ export class SalesOrderHeaderModel {
 
     public static create(props: SalesOrderHeaderPropsWithoutIdAndTotalAmount): SalesOrderHeaderModel {
         return new SalesOrderHeaderModel({
-            ...props,
             id: crypto.randomUUID(),
-            totalAmount: 0
+            totalAmount: 0,
+            ...props
         });
     }
 
@@ -102,8 +102,8 @@ export class SalesOrderHeaderModel {
         return {
             id: this.props.id,
             customer_id: this.props.customerId,
-            items: this.props.items.map(item => item.toCreationObject()),
-            totalAmount: this.calculateDiscount()
+            totalAmount: this.calculateDiscount(),
+            items: this.props.items.map(item => item.toCreationObject())
         }
     }
 

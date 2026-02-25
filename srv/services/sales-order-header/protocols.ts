@@ -4,7 +4,6 @@ import { Payload as BulkCreateSalesOrderPayload } from '@models/db/types/BulkCre
 import { SalesOrderHeader, SalesOrderHeaders } from '@models/sales';
 import { ProductModel } from 'srv/models/product';
 import { CustomerModel } from 'srv/models/customer';
-import { SalesOrderHeaderModel } from 'srv/models/sales-order-header';
 
 export type CreationPayloadValidationResult = {
     hasError: boolean;
@@ -19,4 +18,6 @@ export interface SalesOrderHeaderService {
     beforeCreate(params: SalesOrderHeader): Promise<CreationPayloadValidationResult>;
     afterCreate(parms: SalesOrderHeaders, loggedUser: User): Promise<void>;
     bulkCreate(headers: BulkCreateSalesOrderPayload[], loggedUser: User): Promise<CreationPayloadValidationResult>;
+    cloneSalesOrder(id: string, loggedUser: User): Promise<CreationPayloadValidationResult>;
+
 }
