@@ -26,7 +26,10 @@
     "eslint-plugin-prettier": "^5.5.5",
     "git-commit-msg-linter": "^5.0.8",
     "globals": "^17.3.0",
+    "mbt": "^1.2.43",
+    "npm-run-all": "^4.1.5",
     "prettier": "^3.8.1",
+    "rimraf": "^6.1.3",
     "tsx": "^4.21.0",
     "typescript": "^5.9.3",
     "typescript-eslint": "^8.56.0"
@@ -35,7 +38,9 @@
     "start": "cds-serve",
     "dev": "cds-tsx watch",
     "lint": "eslint ./srv",
-    "lint-fix": "eslint ./srv --fix"
-  },
-  "private": true
+    "lint-fix": "eslint ./srv --fix",
+    "clean": "rimraf gen dist mta_archives Makefile*",
+    "build": "mbt build --mtar sales-order-backend",
+    "bd": "npm-run-all clean build"
+  }
 }
