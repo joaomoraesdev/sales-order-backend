@@ -1,0 +1,11 @@
+{
+    "authenticationMethod": "route",
+    "route": [
+        {
+            "route": "^/sales-order",
+            "destination": "srv-api",
+            "csrfProtection": true,
+            "authenticationType": "xsuaa"
+        }
+    ]
+}

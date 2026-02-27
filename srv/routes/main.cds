@@ -4,6 +4,7 @@ using {db.types.SalesReport, db.types.BulkCreateSalesOrder} from '../../db/types
 // Pode ser com base nas roles tbm: "admin" ou "read_only_user"
 // Entities
 @requires: 'authenticated-user'
+@path: '/sales-order'
 service MainService {
     entity SalesOrderHeaders  as projection on sales.SalesOrderHeaders
         actions {
