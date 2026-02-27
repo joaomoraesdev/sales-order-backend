@@ -6,15 +6,13 @@ import { SalesReportModel } from 'srv/models/sales-report';
 import { SalesReportRepository } from './protocols';
 
 export class SalesReportRepositoryImpl implements SalesReportRepository {
-    
-    /* eslint-disable-next-line max-lines-per-function */
     public async findByDays(days: number): Promise<SalesReportModel[] | null> {
         const today = new Date().toISOString();
         const subtractedDays = new Date();
         subtractedDays.setDate(subtractedDays.getDate() - days);
         const subtractedDaysISOString = subtractedDays.toISOString();
-        
-        const sql = this.getReportBaseSql().where({ createdAt: { between: subtractedDaysISOString, and: today } }); 
+
+        const sql = this.getReportBaseSql().where({ createdAt: { between: subtractedDaysISOString, and: today } });
         const salesReports = await cds.run(sql);
         return this.mapReportResult(salesReports);
     }
@@ -25,18 +23,19 @@ export class SalesReportRepositoryImpl implements SalesReportRepository {
         return this.mapReportResult(salesReports);
     }
     private getReportBaseSql(): any {
-        return SELECT.from('sales.SalesOrderHeaders')
-        .columns(
+        // eslint-disable-next-line no-undef
+        return SELECT.from('sales.SalesOrderHeaders').columns(
             'id as salesOrderId',
             'totalAmount as salesOrderTotalAmount',
             'customer.id as customerId',
-            `customer.firstName || ' ' || customer.lastName as customerFullname`
+            // eslint-disable-next-line quotes
+            "customer.firstName || ' ' || customer.lastName as customerFullname"
         );
     }
 
     private mapReportResult(salesReports: SalesReportByDays[]): SalesReportModel[] | null {
         if (salesReports.length === 0) return null;
-        
+
         return salesReports.map((salesReport: SalesReportByDays) =>
             SalesReportModel.with({
                 salesOrderId: salesReport.salesOrderId as string,

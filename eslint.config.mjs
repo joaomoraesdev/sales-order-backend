@@ -6,6 +6,9 @@ import tsParser from '@typescript-eslint/parser';
 
 export default [
     {
+        ignores: ['./gen/*.{js,ts}', 'db/.build.js', 'node_modules/', 'dist/', 'build/']
+    },
+    {
         languageOptions: {
             globals: globals.node,
             parser: tsParser,
@@ -18,7 +21,6 @@ export default [
     },
     pluginJs.configs.recommended,
     {
-        ignores: ['./gen/*.{js,ts}'],
         files: ['**/*.{mjs,js,ts}'],
         plugins: {
             '@typescript-eslint': tseslint,

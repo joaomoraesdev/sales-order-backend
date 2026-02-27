@@ -103,8 +103,8 @@ export class SalesOrderHeaderModel {
             id: this.props.id,
             customer_id: this.props.customerId,
             totalAmount: this.calculateDiscount(),
-            items: this.props.items.map(item => item.toCreationObject())
-        }
+            items: this.props.items.map((item) => item.toCreationObject())
+        };
     }
 
     private validateCustomerOnCreation(customerId: CreationPayload['customer_id']): CreationPayloadValidationResult {

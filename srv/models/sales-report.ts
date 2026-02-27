@@ -6,7 +6,7 @@ type SalesReportByDaysProps = {
 };
 
 export class SalesReportModel {
-    constructor(private props: SalesReportByDaysProps) { }
+    constructor(private props: SalesReportByDaysProps) {}
 
     public static with(props: SalesReportByDaysProps): SalesReportModel {
         return new SalesReportModel(props);

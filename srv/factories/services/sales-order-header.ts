@@ -6,11 +6,16 @@ import { SalesOrderHeaderServiceImpl } from 'srv/services/sales-order-header/imp
 import { SalesOrderHeaderService } from 'srv/services/sales-order-header/protocols';
 
 const makeSalesOrderHeaderService = (): SalesOrderHeaderService => {
-    const salesOrderHeaderRepository = new SalesOrderHeaderRepositoryImpl()
+    const salesOrderHeaderRepository = new SalesOrderHeaderRepositoryImpl();
     const customerRepository = new CustomerRepositoryImpl();
     const productRepository = new ProductRepositoryImpl();
     const salesOrderLogRepository = new SalesOrderLogRepositoryImpl();
-    return new SalesOrderHeaderServiceImpl(salesOrderHeaderRepository, customerRepository, productRepository, salesOrderLogRepository);
+    return new SalesOrderHeaderServiceImpl(
+        salesOrderHeaderRepository,
+        customerRepository,
+        productRepository,
+        salesOrderLogRepository
+    );
 };
 
 export const salesOrderHeaderService = makeSalesOrderHeaderService();

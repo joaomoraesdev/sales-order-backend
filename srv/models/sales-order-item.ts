@@ -80,6 +80,6 @@ export class SalesOrderItemModel {
             price: this.props.price,
             quantity: this.props.quantity,
             product_id: this.props.productId
-        }
+        };
     }
 }

@@ -17,7 +17,10 @@ export class SalesOrderHeaderControllerImpl implements SalesOrderHeaderControlle
         return this.service.afterCreate(params, loggedUser);
     }
 
-    public async bulkCreate(headers: BulkCreateSalesOrderPayload[], loggedUser: User): Promise<CreationPayloadValidationResult> {
+    public async bulkCreate(
+        headers: BulkCreateSalesOrderPayload[],
+        loggedUser: User
+    ): Promise<CreationPayloadValidationResult> {
         return this.service.bulkCreate(headers, loggedUser);
     }
 
