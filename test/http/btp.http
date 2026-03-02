@@ -1,0 +1,21 @@
+@authApiBaseUrl=https://teste-subaccount-trial-7uiujabb.authentication.us10.hana.ondemand.com
+@apiBaseUrl=linkGeradoAoRodarOPrimeiroPOST
+
+### Obter token do BTP (OAuth2.0 client credentials)
+POST {{authApiBaseUrl}}/oauth/token
+Authorization: Basic 
+Content-Type: application/x-www-form-urlencoded
+
+grant_type=password&username=&password=
+
+## Criar produto na Sales Order API
+
+POST {{apiBaseUrl}}/sales-order/Products
+Authorization: Bearer 
+Content-Type: application/json
+
+{
+    "name"  : "Kit Teclado e Mousa Sem Fio Multi Com Conexão USB - TC212",
+        "price" : 99.50,
+        "stock" : 500
+}
