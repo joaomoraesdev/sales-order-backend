@@ -18,9 +18,7 @@ modules:
     type: nodejs
     path: gen/srv
     parameters:
-      buildpack: nodejs_buildpack
-      disk-quota: 200M
-      memory: 200M
+      no-route: true
     build-parameters:
       builder: custom
       commands:
