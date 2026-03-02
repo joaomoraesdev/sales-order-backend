@@ -41,6 +41,7 @@
     "lint-fix": "eslint ./srv --fix",
     "clean": "rimraf gen dist mta_archives Makefile*",
     "build": "mbt build --mtar sales-order-backend",
-    "bd": "npm-run-all clean build"
+    "deploy": "cf deploy mta_archives/sales-order-backend.mtar --retries 0",
+    "bd": "npm-run-all clean build deploy"
   }
 }
