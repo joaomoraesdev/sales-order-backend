@@ -19,8 +19,8 @@ modules:
     path: gen/srv
     parameters:
       buildpack: nodejs_buildpack
-      disk-quota: 256M
-      memory: 512M
+      disk-quota: 200M
+      memory: 200M
     build-parameters:
       builder: custom
       commands:
@@ -52,8 +52,8 @@ modules:
     type: approuter.nodejs
     path: app-router
     parameters:
-        disk-quota: 256M
-        memory: 512M
+        disk-quota: 200M
+        memory: 200M
     build-parameters:
       builder: custom
       commands:
