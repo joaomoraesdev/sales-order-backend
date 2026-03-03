@@ -6,9 +6,6 @@ import { SalesReportRepository } from '@/repositories/sales-report';
 
 import { SalesReportRepositoryStub } from '@tests/unit/services/sales-report/stubs';
 import { NotFoundError, ServerError } from '@/errors';
-import { salesReportService } from '@/factories/services/sales-report';
-import { randomBytes } from 'node:crypto';
-import { ExpectedResult } from '@models/db/types/BulkCreateSalesOrder';
 
 type SutTypes = {
     sut: SalesReportService;
