@@ -24,7 +24,7 @@ describe('SalesReportService Test Cases', () => {
     it('should throws if SalesReportRepository throws', async () => {
         const { sut, salesReportRepository } = makeSut();
         vi.spyOn(salesReportRepository, 'findByDays').mockRejectedValueOnce(() => {
-            throw new ServerError('Fake Error');
+            throw new ServerError('Fake Error', 'teste stack');
         });
         const result = await sut.findByDays();
         expect(result.isLeft()).toBeTruthy();
