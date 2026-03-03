@@ -25,7 +25,7 @@ action       teste2();
 
 // Functions
 extend service MainService with {
-    function getSaleReportByDays(days: SalesReport.Params:days) returns array of SalesReport.ExpectedResult;
+    function getSalesReportByDays(days: Integer) returns array of SalesReport.ExpectedResult;
 }
 
 // Actions
