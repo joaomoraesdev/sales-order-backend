@@ -13,10 +13,11 @@
     "rootDir": "./",
     "sourceMap": true,
     "paths": {
-      "@models/*": ["./@cds-models/*/index.ts"]
-      ,"@sap/cds": ["types/cds"]
+      "@models/*": ["./@cds-models/*/index.ts"],
+      "@/*": ["./srv/*"],
+      "@tests": ["./test/*"]
     }
   },
-  "include": ["srv", "types/**/*.d.ts"],
+  "include": ["srv", "test"],
   "exclude": ["node_modules"]
 }
