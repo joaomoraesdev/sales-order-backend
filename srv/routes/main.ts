@@ -47,10 +47,10 @@ export default (service: Service) => {
     });
 
     service.on('getSaleReportByCustomerId', async (request: Request) => {
-        console.log('teste');
         const [{ id: customerId }] = request.params as unknown as { id: string }[];
-        console.log(request.params);
-        return salesReportController.findByCustomerId(customerId);
+        const result = await salesReportController.findByCustomerId(customerId);
+        if (result.status >= 400) return request.erro(result.status, result.data as string);
+        return result.data;
     });
 
     service.on('bulkCreateSalesOrder', async (request: Request) => {
