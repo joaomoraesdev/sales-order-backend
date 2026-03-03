@@ -6,6 +6,9 @@ import { Customers, SalesOrderHeaders } from '@models/sales';
 
 import { salesOrderHeaderController } from '../factories/controllers/sales-order-header';
 import { salesReportController } from '../factories/controllers/sales-report';
+import { customerController } from 'srv/factories/controllers/customer';
+import { request } from 'axios';
+import { FullRequestParams } from './protocols';
 
 /* eslint-disable max-lines-per-function */
 export default (service: Service) => {
@@ -20,9 +23,10 @@ export default (service: Service) => {
 
     // Event Handlers
 
-    service.after('READ', 'Customers', (customersList: Customers) => {
-        // request is implicitly handled by the CAP framework
-        return customersList;
+    service.after('READ', 'Customers', (customersList: Customers, request: Request) => {
+        const result = customerController.afterRead(customersList);
+        if (result.status >= 400) return request.error(result.status, result.data as string);
+        (request as unknown as FullRequestParams<Customers>).results = result.data as Customers;
     });
 
     service.before('CREATE', 'SalesOrderHeaders', async (request: Request) => {
