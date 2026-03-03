@@ -6,6 +6,9 @@ import { SalesReportRepository } from '@/repositories/sales-report';
 
 import { SalesReportRepositoryStub } from '@tests/unit/services/sales-report/stubs';
 import { NotFoundError, ServerError } from '@/errors';
+import { salesReportService } from '@/factories/services/sales-report';
+import { randomBytes } from 'node:crypto';
+import { ExpectedResult } from '@models/db/types/BulkCreateSalesOrder';
 
 type SutTypes = {
     sut: SalesReportService;
@@ -21,38 +24,84 @@ const makeSut = (): SutTypes => {
 };
 
 describe('SalesReportService Test Cases', () => {
-    it('should throws if SalesReportRepository throws', async () => {
-        const { sut, salesReportRepository } = makeSut();
-        vi.spyOn(salesReportRepository, 'findByDays').mockRejectedValueOnce(() => {
-            throw new ServerError('Fake Error', 'teste stack');
+    describe('Method: findByDays test cases', () => {
+        it('should throws if SalesReportRepository throws', async () => {
+            const { sut, salesReportRepository } = makeSut();
+            vi.spyOn(salesReportRepository, 'findByDays').mockRejectedValueOnce(() => {
+                throw new ServerError('Fake Error', 'teste stack');
+            });
+            const result = await sut.findByDays();
+            expect(result.isLeft()).toBeTruthy();
+            expect(result.value).toBeInstanceOf(ServerError);
         });
-        const result = await sut.findByDays();
-        expect(result.isLeft()).toBeTruthy();
-        expect(result.value).toBeInstanceOf(ServerError);
+
+        it('should returns a NotFoundError if no records were found for the provided parameters', async () => {
+            const { sut, salesReportRepository } = makeSut();
+            vi.spyOn(salesReportRepository, 'findByDays').mockReturnValueOnce(Promise.resolve(null));
+            const result = await sut.findByDays();
+            expect(result.isLeft()).toBeTruthy();
+            expect(result.value).toBeInstanceOf(NotFoundError);
+            const error = result.value as NotFoundError;
+            expect(error.code).toBe(404);
+            expect(error.message).toBe('Nenhum dado encontrado para os parâmetros informados.');
+        });
+
+        it('should returns SalesReport if everything worked as expected', async () => {
+            const { sut } = makeSut();
+            const result = await sut.findByDays();
+            expect(result.isRight()).toBeTruthy();
+            expect(result.value).toEqual(
+                expect.arrayContaining([
+                    expect.objectContaining({
+                        salesOrderTotalAmount: 100,
+                        customerFullname: 'Jesse Lingard'
+                    })
+                ])
+            );
+        });
     });
 
-    it('should returns a NotFoundError if no records were found for the provided parameters', async () => {
-        const { sut, salesReportRepository } = makeSut();
-        vi.spyOn(salesReportRepository, 'findByDays').mockReturnValueOnce(Promise.resolve(null));
-        const result = await sut.findByDays();
-        expect(result.isLeft()).toBeTruthy();
-        expect(result.value).toBeInstanceOf(NotFoundError);
-        const error = result.value as NotFoundError;
-        expect(error.code).toBe(404);
-        expect(error.message).toBe('Nenhum dado encontrado para os parâmetros informados.');
-    });
+    describe('Method: findByDays test cases', () => {
+        it('should returns ServerError if SalesReportRepository throws', async () => {
+            const { sut, salesReportRepository } = makeSut();
+            vi.spyOn(salesReportRepository, 'findByCustomerId').mockRejectedValueOnce(() => {
+                throw new ServerError('Fake error', 'fake stack');
+            });
+            const customerId = crypto.randomUUID();
+            const result = await sut.findByCustomerId(customerId);
+            expect(result.isLeft()).toBeTruthy();
+            expect(result.value).toBeInstanceOf(ServerError);
+            const error = result.value as ServerError;
+            expect(error.code).toBe(500);
+            expect(error.message).toBe('internalServerError');
+        });
 
-    it('should returns SalesReport if everything worked as expected', async () => {
-        const { sut } = makeSut();
-        const result = await sut.findByDays();
-        expect(result.isRight()).toBeTruthy();
-        expect(result.value).toEqual(
-            expect.arrayContaining([
-                expect.objectContaining({
-                    salesOrderTotalAmount: 100,
-                    customerFullname: 'Jesse Lingard'
-                })
-            ])
-        );
+        it('should returns NotFoundError if no records were found for the provided parameters', async () => {
+            const { sut, salesReportRepository } = makeSut();
+            vi.spyOn(salesReportRepository, 'findByCustomerId').mockReturnValueOnce(Promise.resolve(null));
+            const customerId = crypto.randomUUID();
+            const result = await sut.findByCustomerId(customerId);
+            expect(result.isLeft()).toBeTruthy();
+            expect(result.value).toBeInstanceOf(NotFoundError);
+            const error = result.value as NotFoundError;
+            expect(error.code).toBe(404);
+            expect(error.message).toBe('Nenhum dado encontrado para os parâmetros informados.');
+        });
+
+        it('should returns SalesReportByCustomer if everything worked as expected', async () => {
+            const { sut } = makeSut();
+            const customerId = crypto.randomUUID();
+            const result = await sut.findByCustomerId(customerId);
+            expect(result.isRight()).toBeTruthy();
+            expect(result.value).toEqual(
+                expect.arrayContaining([
+                    expect.objectContaining({
+                        salesOrderTotalAmount: 100,
+                        customerId,
+                        customerFullname: 'Jesse Lingard'
+                    })
+                ])
+            );
+        });
     });
 });
