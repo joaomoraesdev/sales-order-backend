@@ -7,7 +7,6 @@ import { Customers, SalesOrderHeaders } from '@models/sales';
 import { salesOrderHeaderController } from '../factories/controllers/sales-order-header';
 import { salesReportController } from '../factories/controllers/sales-report';
 import { customerController } from 'srv/factories/controllers/customer';
-import { request } from 'axios';
 import { FullRequestParams } from './protocols';
 
 /* eslint-disable max-lines-per-function */
@@ -42,7 +41,9 @@ export default (service: Service) => {
 
     service.on('getSaleReportByDays', async (request: Request) => {
         const days = request.data?.days || 7;
-        return salesReportController.findByDays(days);
+        const result = await salesReportController.findByDays(days);
+        if (result.status >= 400) return request.error(result.status, result.data as string);
+        return result.data;
     });
 
     service.on('getSaleReportByCustomerId', async (request: Request) => {
