@@ -1,8 +1,8 @@
 import { left, right, Either } from '@sweet-monads/either';
 import { CustomerService } from './protocols';
 import { Customers } from '@models/sales';
-import { AbstractError, ServerError } from 'srv/errors/index';
-import { CustomerModel } from 'srv/models/customer';
+import { AbstractError, ServerError } from '@/errors';
+import { CustomerModel } from '@/models/customer';
 
 export class CustomerServiceImpl implements CustomerService {
     public afterRead(customerList: Customers): Either<AbstractError, Customers> {
