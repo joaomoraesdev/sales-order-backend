@@ -2,7 +2,7 @@ import { ExpectedResult as SalesReportByDays } from '@models/db/types/SalesRepor
 import { SalesReportService } from './protocols';
 import { SalesReportRepository } from 'srv/repositories/sales-report/protocols';
 import { Either, left, right } from '@sweet-monads/either';
-import { AbstractError, NotFoundError, ServerError } from 'srv/errors';
+import { AbstractError, NotFoundError, ServerError } from '@/errors';
 
 export class SalesReportServiceImpl implements SalesReportService {
     constructor(private readonly repository: SalesReportRepository) {}
