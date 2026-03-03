@@ -4,9 +4,9 @@ import { Request, Service } from '@sap/cds';
 
 import { Customers, SalesOrderHeaders } from '@models/sales';
 
-import { salesOrderHeaderController } from '../factories/controllers/sales-order-header';
-import { salesReportController } from '../factories/controllers/sales-report';
-import { customerController } from 'srv/factories/controllers/customer';
+import { salesOrderHeaderController } from '@/factories/controllers/sales-order-header';
+import { salesReportController } from '@/factories/controllers/sales-report';
+import { customerController } from '@/factories/controllers/customer';
 import { FullRequestParams } from './protocols';
 
 /* eslint-disable max-lines-per-function */

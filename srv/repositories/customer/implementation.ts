@@ -3,7 +3,7 @@
 import cds from '@sap/cds';
 
 // Referência local
-import { CustomerModel, CustomerProps } from 'srv/models/customer';
+import { CustomerModel, CustomerProps } from '@/models/customer';
 import { CustomerRepository } from './protocols';
 
 export class CustomerRepositoryImpl implements CustomerRepository {

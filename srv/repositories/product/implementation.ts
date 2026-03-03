@@ -1,7 +1,7 @@
 /* global SELECT, UPDATE */
 import cds from '@sap/cds';
 
-import { ProductModel, ProductProps } from 'srv/models/product';
+import { ProductModel, ProductProps } from '@/models/product';
 import { ProductRepository } from './protocols';
 import { Products } from '@models/sales';
 

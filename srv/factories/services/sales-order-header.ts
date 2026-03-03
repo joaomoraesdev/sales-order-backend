@@ -1,9 +1,9 @@
-import { CustomerRepositoryImpl } from 'srv/repositories/customer/implementation';
-import { ProductRepositoryImpl } from 'srv/repositories/product/implementation';
-import { SalesOrderHeaderRepositoryImpl } from 'srv/repositories/sales-order-header/implementation';
-import { SalesOrderLogRepositoryImpl } from 'srv/repositories/sales-order-log/implementation';
-import { SalesOrderHeaderServiceImpl } from 'srv/services/sales-order-header/implementation';
-import { SalesOrderHeaderService } from 'srv/services/sales-order-header/protocols';
+import { CustomerRepositoryImpl } from '@/repositories/customer/implementation';
+import { ProductRepositoryImpl } from '@/repositories/product/implementation';
+import { SalesOrderHeaderRepositoryImpl } from '@/repositories/sales-order-header/implementation';
+import { SalesOrderLogRepositoryImpl } from '@/repositories/sales-order-log/implementation';
+import { SalesOrderHeaderServiceImpl } from '@/services/sales-order-header/implementation';
+import { SalesOrderHeaderService } from '@/services/sales-order-header/protocols';
 
 const makeSalesOrderHeaderService = (): SalesOrderHeaderService => {
     const salesOrderHeaderRepository = new SalesOrderHeaderRepositoryImpl();

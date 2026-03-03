@@ -1,5 +1,5 @@
-import { SalesReportController } from 'srv/controllers/sales-report/protocols';
-import { SalesReportControllerImpl } from 'srv/controllers/sales-report/implementation';
+import { SalesReportController } from '@/controllers/sales-report/protocols';
+import { SalesReportControllerImpl } from '@/controllers/sales-report/implementation';
 import { salesReportService } from '../services/sales-report';
 
 const makeSalesReportController = (): SalesReportController => {

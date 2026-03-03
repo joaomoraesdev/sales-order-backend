@@ -1,9 +1,9 @@
 import cds from '@sap/cds';
 
-import { SalesOrderHeaderModel } from 'srv/models/sales-order-header';
+import { SalesOrderHeaderModel } from '@/models/sales-order-header';
 import { CompleteSalesOrderHeader, SalesOrderHeaderRepository } from './protocols';
-import { ProductModel } from 'srv/models/product';
-import { SalesOrderItemModel } from 'srv/models/sales-order-item';
+import { ProductModel } from '@/models/product';
+import { SalesOrderItemModel } from '@/models/sales-order-item';
 
 export class SalesOrderHeaderRepositoryImpl implements SalesOrderHeaderRepository {
     public async bulkCreate(headers: SalesOrderHeaderModel[]): Promise<void> {

@@ -2,7 +2,7 @@ import cds from '@sap/cds';
 
 import { ExpectedResult as SalesReportByDays } from '@cds-models/db/types/SalesReportByDays';
 
-import { SalesReportModel } from 'srv/models/sales-report';
+import { SalesReportModel } from '@/models/sales-report';
 import { SalesReportRepository } from './protocols';
 
 export class SalesReportRepositoryImpl implements SalesReportRepository {
